@@ -40,6 +40,24 @@ public:
 	}
 };
 
+class FighterCompareByYearAndNumber : virtual public Comparator
+{
+public:
+	virtual bool operator()(Fighter& a, Fighter& b)
+	{
+		if (a.getYearByInteger() > b.getYearByInteger()) {
+			return true;
+		}
+		if (a.getYearByInteger() == b.getYearByInteger())
+		{
+			if (a.getNumberByInteger() > b.getNumberByInteger()) {
+				return true;
+			}
+		}
+		return false;
+	}
+};
+
 void swap(Fighter* xp, Fighter* yp)
 {
 	Fighter temp = *xp;
@@ -100,6 +118,7 @@ int main()
 
 	FighterCompareByYear compareByYear;
 	FighterCompareByNumber compareByNumber;
+	FighterCompareByYearAndNumber compareByYearAndNumber;
 
 	clock_t start, end;
 	double elapsedTime;
@@ -193,32 +212,28 @@ int main()
 		
 		// Bubble Sort(생산년도 기준 오름차순후 생산 대수 기준 오름차순)
 		start = clock();
-		sorted = BubbleSort(fighters, compareByYear);
-		sorted = BubbleSort(sorted, compareByNumber);
+		sorted = BubbleSort(fighters, compareByYearAndNumber);
 		end = clock();
 		elapsedTime = static_cast<double>(end - start);
-		cout << "Bubble Sort 경과시간: " << elapsedTime << "ms" << endl;
+		cout << "Bubble Sort 경과시간: " << elapsedTime << "ms" << endl;	
 
 		// Selection(생산년도 기준 오름차순후 생산 대수 기준 오름차순)
 		start = clock();
-		sorted = SelectionSort(fighters, compareByYear);
-		sorted = SelectionSort(sorted, compareByNumber);
+		sorted = SelectionSort(fighters, compareByYearAndNumber);
 		end = clock();
 		elapsedTime = static_cast<double>(end - start);
 		cout << "Selection 경과시간: " << elapsedTime << "ms" << endl;
 
 		// Shell sort Sort(생산년도 기준 오름차순후 생산 대수 기준 오름차순)
 		start = clock();
-		sorted = ShellSort(fighters, compareByYear);
-		sorted = ShellSort(sorted, compareByNumber);
+		sorted = ShellSort(fighters, compareByYearAndNumber);
 		end = clock();
 		elapsedTime = static_cast<double>(end - start);
 		cout << "Shell sort Sort 경과시간: " << elapsedTime << "ms" << endl;
 
 		// Merge Sort(생산년도 기준 오름차순후 생산 대수 기준 오름차순)
 		start = clock();
-		sorted = MergeSort(fighters, compareByYear);
-		sorted = MergeSort(sorted, compareByNumber);
+		sorted = MergeSort(fighters, compareByYearAndNumber);
 		end = clock();
 		elapsedTime = static_cast<double>(end - start);
 		cout << "Merge Sort 경과시간: " << elapsedTime << "ms" << endl;
@@ -226,8 +241,7 @@ int main()
 		// Quick Sort(생산년도 기준 오름차순후 생산 대수 기준 오름차순)
 		start = clock();
 		sorted = fighters;
-		sort(sorted.begin(), sorted.end(), compareByYear);
-		sort(sorted.begin(), sorted.end(), compareByNumber);
+		sort(sorted.begin(), sorted.end(), compareByYearAndNumber);
 		end = clock();
 		elapsedTime = static_cast<double>(end - start);
 		cout << "Quick Sort 경과시간: " << elapsedTime << "ms" << endl;
